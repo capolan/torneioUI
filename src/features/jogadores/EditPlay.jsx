@@ -1,46 +1,50 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
 
-import { useHistory } from "react-router-dom";
 import { useState } from "react";
-import { userAdded } from "./UserSlice";
+import { playerUpdated } from "./PlaySlice";
 
-export function AddUser() {
+export function EditPlayer() {
+  const { pathname } = useLocation();
+  const playerId = parseInt(pathname.replace("/edit-player/", ""));
+
+  const { timesId }= useSelector((state) => state.players.entities.find((u) => u.id === playerId));
+
+  const user = useSelector((state) => {
+    console.log("playerId",playerId);
+    console.log("players",state.players);
+    return state.players.entities.find((u) => u.id === playerId);
+  }
+  );
+
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [nome, setName] = useState("");
+  const [nome, setName] = useState(user.nome);
   const [error, setError] = useState(null);
 
   const handleName = (e) => setName(e.target.value);
 
-  const maxId = useSelector((state) => state.times.entities.reduce(
-    (max, item) => (item.id > max ? item.id : max), 0 ));
-
   const handleClick = () => {
     if (nome) {
-      let dt = new Date();
-      const criadoEm = dt.toISOString().split('T')[0];
       dispatch(
-        userAdded({
-          id: maxId + 1,
+        playerUpdated({
+          id: playerId,
           nome,
-          criadoEm,
         })
       );
 
       setError(null);
-      history.push("/");
+      history.push(`/player-list/${timesId}`);
     } else {
-      setError("Preencha todos os campos");
+      setError("Preencha o nome");
     }
-
-    setName("");
   };
 
   return (
     <div className="container">
       <div className="row">
-        <h1>Add user</h1>
+        <h1>Editar Jogador</h1>
       </div>
       <div className="row">
         <div className="three columns">
@@ -48,14 +52,14 @@ export function AddUser() {
           <input
             className="u-full-width"
             type="text"
-            placeholder="nome do país"
+            placeholder="nome do jogador"
             id="nameInput"
             onChange={handleName}
             value={nome}
           />
           {error && error}
           <button onClick={handleClick} className="btn-primary">
-            Incluir
+            Salvar
           </button>
         </div>
       </div>

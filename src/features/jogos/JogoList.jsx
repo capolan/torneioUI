@@ -1,5 +1,5 @@
 import { bindActionCreators } from "redux";
-import { fetchJogos, jogoDeleted, jogoClean, jogoUpdated, jogoAdded } from "./JogoSlice";
+import { fetchJogos, jogoClean, jogoUpdated, jogoAdded } from "./JogoSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export function JogoList() {
@@ -8,10 +8,6 @@ export function JogoList() {
   const { entjogos } = useSelector((state) => state.jogos);
   const loading = useSelector((state) => state.loading1);
   const { entities } = useSelector((state) => state.times);
-
-  const handleDelete = (id) => {
-    dispatch(jogoDeleted({ id }));
-  };
 
   const handleClean = (id) => {
     dispatch(jogoClean({ id }));
@@ -27,14 +23,37 @@ export function JogoList() {
         time2Gol: time2Gol,
       })
     );
+campeao();
+  };
 
+  const campeao = () => {
+    const times = entities.map(obj => ({...obj, ponto:0}));
+
+    console.log("times",times);
+    const placar = entjogos.filter(s=>s.time1Gol !== undefined);
+    placar.map(({id, time1Id, time2Id, time1Gol, time2Gol},i) => {
+      if (time1Gol === time2Gol) {
+        let t1 = times.find(s=>s.id === time1Id);
+        t1.ponto= t1.ponto+1;
+        let t2 = times.find(s=>s.id === time2Id);
+        t2.ponto= t2.ponto+1;
+      }
+      if (time1Gol > time2Gol) {
+        let t1 = times.find(s=>s.id === time1Id);
+        t1.ponto= t1.ponto+3;
+      }
+      if (time1Gol < time2Gol) {
+        let t1 = times.find(s=>s.id === time2Id);
+        t1.ponto= t1.ponto+3;
+      }
+    });
+    console.log("campeao",times);
   };
 
   const dispatchChaining = () => async (dispatch) => {
     await Promise.all(
       [dispatch(jogoAdded())]
       );
-    console.log("jogos criados");
     return dispatch(fetchJogos());
   };
   
@@ -63,8 +82,6 @@ export function JogoList() {
     return placar;
   };
 
-  console.log("entjogos",entjogos);
-  console.log("loading",loading);
   return (
     <div className="container">
       <div className="row">
@@ -95,7 +112,7 @@ export function JogoList() {
               </tr>
             </thead>
             <tbody>
-              {entjogos.length &&
+              {entjogos!==undefined && entjogos.length &&
                 entjogos.map(({ id, time1Id, time2Id }, i) => (
                   <tr key={i}>
                     <td>{id}</td>
@@ -106,7 +123,6 @@ export function JogoList() {
                       <button className="btn btn-warning mx-1" onClick={() => handleClean(id)}>Limpar</button>
                       <button className="btn btn-primary mx-1" onClick={() => handlePlacar(id)}>Placar</button>
                     </td>
-                    <button className="btn btn-danger mx-1" onClick={() => handleDelete(id)}>Remover</button>
                   </tr>
                 ))}
             </tbody>

@@ -5,6 +5,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { fetchUsers } from "./features/times/UserSlice";
 import { fetchJogos } from "./features/jogos/JogoSlice";
+import { fetchPlayers } from "./features/jogadores/PlaySlice";
 import store from "./store";
 
 //store.dispatch(fetchUsers());
@@ -12,7 +13,7 @@ import store from "./store";
 
 const dispatchChaining = () => async (dispatch) => {
   await Promise.all([store.dispatch(fetchUsers())]);
-
+  await Promise.all([store.dispatch(fetchPlayers())]);
   return store.dispatch(fetchJogos());
 };
 

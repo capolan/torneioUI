@@ -39,3 +39,8 @@
     transform: rotate(360deg);
   }
 }
+
+.textCenter {
+  align-items: center;
+  background-color: dodgerblue;
+}

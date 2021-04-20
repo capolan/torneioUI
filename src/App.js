@@ -9,12 +9,16 @@ import { EditUser } from "./features/times/EditUser";
 import { UserList } from "./features/times/UserList";
 import { AddJogo } from "./features/jogos/AddJogo";
 import { JogoList } from "./features/jogos/JogoList";
+import { AddPlayer } from "./features/jogadores/AddPlay";
+import { EditPlayer } from "./features/jogadores/EditPlay";
+import { PlayerList } from "./features/jogadores/PlayList";
 import { Navigation } from "./logic/menu";
 
 export default function App() {
   return (
     <>
       <Navigation />
+      <h1 className="textCenter">Torneio</h1>
       <Router>
         <div>
           <Switch>
@@ -23,6 +27,15 @@ export default function App() {
             </Route>
             <Route path="/edit-user">
               <EditUser />
+            </Route>
+            <Route path="/add-player">
+              <AddPlayer />
+            </Route>
+            <Route path="/edit-player">
+              <EditPlayer />
+            </Route>
+            <Route path="/player-list">
+              <PlayerList />
             </Route>
             <Route path="/add-jogo">
               <AddJogo />

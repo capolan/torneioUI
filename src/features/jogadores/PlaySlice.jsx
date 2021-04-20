@@ -2,52 +2,51 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { getURL } from "../../logic/config";
 
-export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
-  let users=null;
+export const fetchPlayers = createAsyncThunk("users/fetchPlayers", async () => {
+  let players=null;
   try {
-    const url = `${getURL()}/times`;
+    const url = `${getURL()}/jogadores`;
     const response = await fetch(url, { Header: "Access-Control-Allow-Origin: *"});
-    users = await response.json();
+    players= await response.json();
 
-    users.map(val => {
-        val.criadoEm = val.criadoEm.substring(0,10);
-        val.ponto=0;
-        return val;
-    });
+    console.log("players",  players);
+  
   } catch (err) {
     console.log("err",err);
   }
-  return users;
+  return players;
 });
 
-const userSlice = createSlice({
-  name: "users",
+const playSlice = createSlice({
+  name: "players",
   initialState: {
     entities: [],
     loading: false,
   },
   reducers: {
-    userAdded(state, action) {
+    playerAdded(state, action) {
       state.entities.push(action.payload);
       const body = JSON.stringify(action.payload);
       console.log("add", action.payload);
-      const url = `${getURL()}/times`;
+      const url = `${getURL()}/jogadores`;
+
       axios.post(url, body,
       {
         headers: {
         'Content-Type': 'application/json'
         }
-      } );
+      } ).then(res => {
+        console.log("res", res);
+      });
   },
-    userUpdated(state, action) {
-      const { id, nome, CriadoEm } = action.payload;
+    playerUpdated(state, action) {
+      const { id, nome } = action.payload; 
       const existingUser = state.entities.find((user) => user.id === id);
       if (existingUser) {
         existingUser.nome = nome;
-        existingUser.CriadoEm = CriadoEm;
         const body = JSON.stringify(existingUser);
         console.log("body", body);
-        const url = `${getURL()}/times/${id}`;
+        const url = `${getURL()}/jogadores/${id}`;
         axios.put(url, body,
         {
           headers: {
@@ -56,30 +55,31 @@ const userSlice = createSlice({
         } );
       }
     },
-    userDeleted(state, action) {
+    playerDeleted(state, action) {
       const { id } = action.payload;
+      console.log("delete --",id);
       const existingUser = state.entities.find((user) => user.id === id);
       if (existingUser) {
         state.entities = state.entities.filter((user) => user.id !== id);
-        const url = `${getURL()}/times/${id}`;
+        const url = `${getURL()}/jogadores/${id}`;        
         axios.delete(url);
       }
     },
   },
   extraReducers: {
-    [fetchUsers.pending]: (state, action) => {
+    [fetchPlayers.pending]: (state, action) => {
       state.loading = true;
     },
-    [fetchUsers.fulfilled]: (state, action) => {
+    [fetchPlayers.fulfilled]: (state, action) => {
       state.loading = false;
       state.entities = [...action.payload];
     },
-    [fetchUsers.rejected]: (state, action) => {
+    [fetchPlayers.rejected]: (state, action) => {
       state.loading = false;
     },
   },
 });
 
-export const { userAdded, userUpdated, userDeleted } = userSlice.actions;
+export const { playerAdded, playerUpdated, playerDeleted } = playSlice.actions;
 
-export default userSlice.reducer;
+export default playSlice.reducer;

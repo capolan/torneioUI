@@ -8,8 +8,8 @@ export function EditUser() {
   const { pathname } = useLocation();
   const userId = parseInt(pathname.replace("/edit-user/", ""));
 
-  const user = useSelector((state) =>
-    state.users.entities.find((user) => user.id === userId)
+  const user = useSelector((state) => 
+    state.times.entities.find((user) => user.id === userId)
   );
 
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ export function EditUser() {
       setError(null);
       history.push("/");
     } else {
-      setError("Fill in all fields");
+      setError("Preencha os campos");
     }
   };
 
