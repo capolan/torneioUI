@@ -4,7 +4,7 @@ import jogosReducers from "./features/jogos/JogoSlice";
 
 export default configureStore({
   reducer: {
-    users: usersReducers,
+    times: usersReducers,
     jogos: jogosReducers,
   },
 });

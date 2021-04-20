@@ -1,42 +1,83 @@
-import { fetchJogos, jogoDeleted } from "./JogoSlice";
+import { bindActionCreators } from "redux";
+import { fetchJogos, jogoDeleted, jogoClean, jogoUpdated, jogoAdded } from "./JogoSlice";
 import { useDispatch, useSelector } from "react-redux";
-
-import { Link } from "react-router-dom";
 
 export function JogoList() {
   const dispatch = useDispatch();
 
-  const { entities } = useSelector((state) => state.jogos);
-  const { times } = useSelector((state) => state.times);
-  const loading = useSelector((state) => state.loading);
+  const { entjogos } = useSelector((state) => state.jogos);
+  const loading = useSelector((state) => state.loading1);
+  const { entities } = useSelector((state) => state.times);
 
   const handleDelete = (id) => {
     dispatch(jogoDeleted({ id }));
   };
 
-  const getTimeName = (id) => {
-    const time = times.find(tt=>tt.id === id);
-    return time;
+  const handleClean = (id) => {
+    dispatch(jogoClean({ id }));
   };
 
+  const handlePlacar = (id) => {
+    const time1Gol = Math.floor(Math.random() * 10);
+    const time2Gol = Math.floor(Math.random() * 10);
+    dispatch(
+      jogoUpdated({
+        id: id,
+        time1Gol: time1Gol,
+        time2Gol: time2Gol,
+      })
+    );
+
+  };
+
+  const dispatchChaining = () => async (dispatch) => {
+    await Promise.all(
+      [dispatch(jogoAdded())]
+      );
+    console.log("jogos criados");
+    return dispatch(fetchJogos());
+  };
+  
+  
+  const handleGerar = () => {
+    const actions = bindActionCreators({ dispatchChaining }, dispatch);
+    actions.dispatchChaining().then(() => console.log("jogos atualizados")); // <-- thenable
+  };
+
+
+  const getTime = (id) => {
+    const time = entities.find(tt=>tt.id === id);
+    if (time !== undefined) {
+      return time.nome;
+    } else {
+      return '------';
+    }
+  };
+
+  const getPlacar = (id) => {
+    const time = entjogos.find(tt=>tt.id === id);
+    let placar="";
+    if (time.time1Gol != null && time.time2Gol != null) {
+      placar = time.time1Gol + " x " + time.time2Gol;
+    }
+    return placar;
+  };
+
+  console.log("entjogos",entjogos);
+  console.log("loading",loading);
   return (
     <div className="container">
       <div className="row">
-        <h1>Times</h1>
+        <h1>Jogos</h1>
       </div>
       <div className="row">
         <div className="two columns">
           <button
-            onClick={() => dispatch(fetchJogos())}
+            onClick={() => handleGerar()}
             className="btn-primary m-1"
           >
-            Carregar
+            Gerar Jogos
           </button>
-        </div>
-        <div className="two columns">
-          <Link to="/add-user">
-            <button className="btn-primary m-1">Novo</button>
-          </Link>
         </div>
       </div>
       <div className="row">
@@ -46,25 +87,26 @@ export function JogoList() {
           <table className="u-full-width">
             <thead>
               <tr>
-                <th>ID</th>
+              <th>Id</th>
                 <th>Time 1</th>
+                <th>Placar</th>
                 <th>Time 2</th>
-                <th>Açoes</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              {entities.length &&
-                entities.map(({ id, time1_id, time2_id }, i) => (
+              {entjogos.length &&
+                entjogos.map(({ id, time1Id, time2Id }, i) => (
                   <tr key={i}>
                     <td>{id}</td>
-                    <td>{getTimeName(time1_id)}</td>
-                    <td>{getTimeName(time2_id)}</td>
+                    <td>{ getTime(time1Id) } </td>
+                    <td>{ getPlacar(id) }</td>
+                    <td>{ getTime(time2Id)}</td>
                     <td>
-                      <button className="btn btn-danger" onClick={() => handleDelete(id)}>Remover</button>
-                      <Link to={`/edit-jogo/${id}`}>
-                        <button className="btn btn-primary">Editar</button>
-                      </Link>
+                      <button className="btn btn-warning mx-1" onClick={() => handleClean(id)}>Limpar</button>
+                      <button className="btn btn-primary mx-1" onClick={() => handlePlacar(id)}>Placar</button>
                     </td>
+                    <button className="btn btn-danger mx-1" onClick={() => handleDelete(id)}>Remover</button>
                   </tr>
                 ))}
             </tbody>

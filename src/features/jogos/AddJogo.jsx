@@ -2,28 +2,25 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
-import { userAdded } from "./UserSlice";
+import { jogoAdded } from "./JogoSlice";
 
-export function AddUser() {
+export function AddJogo() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [nome, setName] = useState("");
+  const [time1_id, setTime1_id] = useState("");
+  const [time2_id, setTime2_id] = useState("");
   const [error, setError] = useState(null);
 
-  const handleName = (e) => setName(e.target.value);
-
-  const usersAmount = useSelector((state) => state.users.entities.length);
+  const handleT1 = (e) => setTime1_id(e.target.value);
+  const handleT2 = (e) => setTime2_id(e.target.value);
 
   const handleClick = () => {
-    if (nome) {
-      let dt = new Date();
-      const criadoEm = dt.toISOString().split('T')[0];
+    if (time1_id) {
       dispatch(
-        userAdded({
-          id: usersAmount + 1,
-          nome,
-          criadoEm,
+        jogoAdded({
+          time1_id,
+          time2_id,
         })
       );
 
@@ -33,24 +30,34 @@ export function AddUser() {
       setError("Preencha todos os campos");
     }
 
-    setName("");
+    setTime1_id("");
+    setTime2_id("");
   };
 
   return (
     <div className="container">
       <div className="row">
-        <h1>Add user</h1>
+        <h1>Add Jogo</h1>
       </div>
       <div className="row">
         <div className="three columns">
-          <label htmlFor="nameInput">Nome</label>
+          <label htmlFor="nameInput">Time1</label>
           <input
             className="u-full-width"
             type="text"
-            placeholder="nome do país"
+            placeholder="time1"
             id="nameInput"
-            onChange={handleName}
-            value={nome}
+            onChange={handleT1}
+            value={time1_id}
+          />
+          <label htmlFor="nameInput">Time2</label>
+          <input
+            className="u-full-width"
+            type="text"
+            placeholder="time2"
+            id="nameInput"
+            onChange={handleT2}
+            value={time2_id}
           />
           {error && error}
           <button onClick={handleClick} className="btn-primary">

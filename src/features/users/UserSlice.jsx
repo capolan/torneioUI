@@ -9,9 +9,9 @@ export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
       url = "http://localhost:8010/proxy/api/times";
     } 
     const response = await fetch(url, { Header: "Access-Control-Allow-Origin: *"});
+    console.log("response", response);
     users = await response.json();
 
-    console.log("user", users);
     users.map(val => {
         val.criadoEm = val.criadoEm.substring(0,10);
         return val;
@@ -23,7 +23,7 @@ export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
 });
 
 const userSlice = createSlice({
-  name: "users",
+  name: "times",
   initialState: {
     entities: [],
     loading: false,
@@ -63,7 +63,6 @@ const userSlice = createSlice({
       const existingUser = state.entities.find((user) => user.id === id);
       if (existingUser) {
         state.entities = state.entities.filter((user) => user.id !== id);
-        axios.delete(`http://localhost:8010/proxy/api/times/${id}`);
       }
     },
   },

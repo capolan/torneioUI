@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export function UserList() {
   const dispatch = useDispatch();
 
-  const { entities } = useSelector((state) => state.users);
+  const { entities } = useSelector((state) => state.times);
   const loading = useSelector((state) => state.loading);
 
   const handleDelete = (id) => {
@@ -54,10 +54,13 @@ export function UserList() {
                     <td>{nome}</td>
                     <td>{criadoEm}</td>
                     <td>
-                      <button className="btn btn-danger" onClick={() => handleDelete(id)}>Remover</button>
-                      <Link to={`/edit-user/${id}`}>
-                        <button className="btn btn-primary">Editar</button>
+                    <Link to={`/edit-player/${id}`}>
+                        <button className="btn btn-warning mx-1">Jogadores</button>
                       </Link>
+                      <Link to={`/edit-user/${id}`}>
+                        <button className="btn btn-primary mx-1">Editar</button>
+                      </Link>
+                      <button className="btn btn-danger mx-1" onClick={() => handleDelete(id)}>Remover</button>
                     </td>
                   </tr>
                 ))}

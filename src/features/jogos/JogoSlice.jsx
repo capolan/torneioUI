@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchJogos = createAsyncThunk("users/fetchJogos", async () => {
+export const fetchJogos = createAsyncThunk("jogos/fetchJogos", async () => {
   let jogos=null;
   try {
     let url = "https://aws.sensoronline.net/api/jogo";
@@ -22,13 +22,13 @@ export const fetchJogos = createAsyncThunk("users/fetchJogos", async () => {
 const jogoSlice = createSlice({
   name: "jogos",
   initialState: {
-    entities: [],
-    loading: false,
+    entjogos: [],
+    loading1: false,
   },
   reducers: {
     jogoAdded(state, action) {
-      state.entities.push(action.payload);
-      const body = JSON.stringify(action.payload);
+      state.entjogos.push(action.payload);
+      const body = { id:0};
       console.log("add", action.payload);
 
       axios.post(`http://localhost:8010/proxy/api/jogos`, body,
@@ -39,11 +39,11 @@ const jogoSlice = createSlice({
       } );
   },
     jogoUpdated(state, action) {
-      const { id, nome, CriadoEm } = action.payload;
-      const existingUser = state.entities.find((jogo) => jogo.id === id);
+      const { id, time1Gol, time2Gol } = action.payload;
+      const existingUser = state.entjogos.find((jogo) => jogo.id === id);
       if (existingUser) {
-        existingUser.nome = nome;
-        existingUser.CriadoEm = CriadoEm;
+        existingUser.time1Gol = time1Gol;
+        existingUser.time2Gol = time2Gol;
         const body = JSON.stringify(existingUser);
         console.log("body", body);
         axios.put(`http://localhost:8010/proxy/api/jogos/${id}`, body,
@@ -54,29 +54,45 @@ const jogoSlice = createSlice({
         } );
       }
     },
-    userDeleted(state, action) {
+    jogoClean(state, action) {
+      const { id } = action.payload;
+      const existingUser = state.entjogos.find((jogo) => jogo.id === id);
+      if (existingUser) {
+        existingUser.time1Gol = null;
+        existingUser.time2Gol = null;
+        const body = JSON.stringify(existingUser);
+        console.log("body", body);
+        axios.put(`http://localhost:8010/proxy/api/jogos/${id}`, body,
+        {
+          headers: {
+          'Content-Type': 'application/json'
+          }
+        } );
+      }
+    },
+    jogoDeleted(state, action) {
       const { id } = action.payload;
       console.log("delete --",id);
-      const existingUser = state.entities.find((jogo) => jogo.id === id);
+      const existingUser = state.entjogos.find((jogo) => jogo.id === id);
       if (existingUser) {
-        state.entities = state.entities.filter((jogo) => jogo.id !== id);
+        state.entjogos = state.entjogos.filter((jogo) => jogo.id !== id);
       }
     },
   },
   extraReducers: {
     [fetchJogos.pending]: (state, action) => {
-      state.loading = true;
+      state.loading1 = true;
     },
     [fetchJogos.fulfilled]: (state, action) => {
-      state.loading = false;
-      state.entities = [...action.payload];
+      state.loading1 = false;
+      state.entjogos = [...action.payload];
     },
     [fetchJogos.rejected]: (state, action) => {
-      state.loading = false;
+      state.loading1 = false;
     },
   },
 });
 
-export const { jogoAdded, jogoUpdated, jogoDeleted } = jogoSlice.actions;
+export const { jogoAdded, jogoUpdated, jogoDeleted, jogoClean } = jogoSlice.actions;
 
 export default jogoSlice.reducer;
