@@ -23,7 +23,7 @@ O código deve ser disponibilizado no GitHub.
 
 - Desenvolvido em react/redux;
 - Incluído Styled e Bootstrap;
-- Conecta ao serviço https://fifa.ddns.net (configuração em logic/config.jsx);
+- Conecta ao serviço http://fifa.ddns.net (configuração em logic/config.jsx);
 - Torneio tem 3 telas:
   - Times: CRUD dos times do torneio;
   - Jogadores: CRUD de jogadores;
