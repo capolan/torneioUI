@@ -25,7 +25,7 @@ export function PlayerList() {
       <div className="row">
         <div className="two columns">
           <Link to={`/add-player/${timeId}`}>
-            <button className="btn btn-primary m-1">Novo</button>
+            <button className="btn btn-primary m-1">Novo Jogador</button>
           </Link>
         </div>
       </div>
@@ -33,7 +33,7 @@ export function PlayerList() {
         {loading ? (
           "Loading..."
         ) : (
-          <table className="u-full-width">
+          <table className="u-full-width table table-striped">
             <thead>
               <tr>
                 <th>ID</th>

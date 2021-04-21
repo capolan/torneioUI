@@ -4,9 +4,9 @@ import "bootstrap/dist/js/bootstrap.bundle";
 import React from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
-import { AddUser } from "./features/times/AddUser";
-import { EditUser } from "./features/times/EditUser";
-import { UserList } from "./features/times/UserList";
+import { AddTime } from "./features/times/AddTime";
+import { EditTime } from "./features/times/EditTime";
+import { TimeList } from "./features/times/TimeList";
 import { AddJogo } from "./features/jogos/AddJogo";
 import { JogoList } from "./features/jogos/JogoList";
 import { AddPlayer } from "./features/jogadores/AddPlay";
@@ -23,10 +23,10 @@ export default function App() {
         <div>
           <Switch>
             <Route path="/add-user">
-              <AddUser />
+              <AddTime />
             </Route>
             <Route path="/edit-user">
-              <EditUser />
+              <EditTime />
             </Route>
             <Route path="/add-player">
               <AddPlayer />
@@ -44,7 +44,7 @@ export default function App() {
               <JogoList />
             </Route>
             <Route path="/">
-              <UserList />
+              <TimeList />
             </Route>
           </Switch>
         </div>

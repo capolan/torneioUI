@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 
 import { useState } from "react";
-import { userUpdated } from "./UserSlice";
+import { timeUpdated } from "./TimeSlice";
 
-export function EditUser() {
+export function EditTime() {
   const { pathname } = useLocation();
   const userId = parseInt(pathname.replace("/edit-user/", ""));
 
@@ -25,7 +25,7 @@ export function EditUser() {
   const handleClick = () => {
     if (nome && criadoEm) {
       dispatch(
-        userUpdated({
+        timeUpdated({
           id: userId,
           nome,
           criadoEm,

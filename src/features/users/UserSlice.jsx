@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
+export const fetchTimes = createAsyncThunk("users/fetchTimes", async () => {
   let users=null;
   try {
     let url = "https://aws.sensoronline.net/api/times";
@@ -22,14 +22,14 @@ export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
   return users;
 });
 
-const userSlice = createSlice({
+const TimeSlice = createSlice({
   name: "times",
   initialState: {
     entities: [],
     loading: false,
   },
   reducers: {
-    userAdded(state, action) {
+    timeAdded(state, action) {
       state.entities.push(action.payload);
       const body = JSON.stringify(action.payload);
       console.log("add", action.payload);
@@ -41,7 +41,7 @@ const userSlice = createSlice({
         }
       } );
   },
-    userUpdated(state, action) {
+    timeUpdated(state, action) {
       const { id, nome, CriadoEm } = action.payload;
       const existingUser = state.entities.find((user) => user.id === id);
       if (existingUser) {
@@ -57,7 +57,7 @@ const userSlice = createSlice({
         } );
       }
     },
-    userDeleted(state, action) {
+    timeDeleted(state, action) {
       const { id } = action.payload;
       console.log("delete --",id);
       const existingUser = state.entities.find((user) => user.id === id);
@@ -67,19 +67,19 @@ const userSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchUsers.pending]: (state, action) => {
+    [fetchTimes.pending]: (state, action) => {
       state.loading = true;
     },
-    [fetchUsers.fulfilled]: (state, action) => {
+    [fetchTimes.fulfilled]: (state, action) => {
       state.loading = false;
       state.entities = [...action.payload];
     },
-    [fetchUsers.rejected]: (state, action) => {
+    [fetchTimes.rejected]: (state, action) => {
       state.loading = false;
     },
   },
 });
 
-export const { userAdded, userUpdated, userDeleted } = userSlice.actions;
+export const { timeAdded, timeUpdated, timeDeleted } = TimeSlice.actions;
 
-export default userSlice.reducer;
+export default TimeSlice.reducer;

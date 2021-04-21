@@ -3,16 +3,16 @@ import { Provider } from "react-redux";
 import { bindActionCreators } from "redux";
 import React from "react";
 import ReactDOM from "react-dom";
-import { fetchUsers } from "./features/times/UserSlice";
+import { fetchTimes } from "./features/times/TimeSlice";
 import { fetchJogos } from "./features/jogos/JogoSlice";
 import { fetchPlayers } from "./features/jogadores/PlaySlice";
 import store from "./store";
 
-//store.dispatch(fetchUsers());
+//store.dispatch(fetchTimes());
 //store.dispatch(fetchJogos());
 
 const dispatchChaining = () => async (dispatch) => {
-  await Promise.all([store.dispatch(fetchUsers())]);
+  await Promise.all([store.dispatch(fetchTimes())]);
   await Promise.all([store.dispatch(fetchPlayers())]);
   return store.dispatch(fetchJogos());
 };

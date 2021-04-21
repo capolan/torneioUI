@@ -1,28 +1,32 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
 
-import { useHistory } from "react-router-dom";
 import { useState } from "react";
-import { userAdded } from "./UserSlice";
+import { timeUpdated } from "./TimeSlice";
 
-export function AddUser() {
+export function EditTime() {
+  const { pathname } = useLocation();
+  const userId = parseInt(pathname.replace("/edit-user/", ""));
+
+  const user = useSelector((state) =>
+    state.users.entities.find((user) => user.id === userId)
+  );
+
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [nome, setName] = useState("");
+  const [nome, setName] = useState(user.nome);
+  const [criadoEm, setEmail] = useState(user.criadoEm);
   const [error, setError] = useState(null);
 
   const handleName = (e) => setName(e.target.value);
-
-  const maxId = useSelector((state) => state.times.entities.reduce(
-    (max, item) => (item.id > max ? item.id : max), 0 ));
+  const handleEmail = (e) => setEmail(e.target.value);
 
   const handleClick = () => {
-    if (nome) {
-      let dt = new Date();
-      const criadoEm = dt.toISOString().split('T')[0];
+    if (nome && criadoEm) {
       dispatch(
-        userAdded({
-          id: maxId + 1,
+        timeUpdated({
+          id: userId,
           nome,
           criadoEm,
         })
@@ -31,16 +35,14 @@ export function AddUser() {
       setError(null);
       history.push("/");
     } else {
-      setError("Preencha todos os campos");
+      setError("Fill in all fields");
     }
-
-    setName("");
   };
 
   return (
     <div className="container">
       <div className="row">
-        <h1>Add user</h1>
+        <h1>Editar</h1>
       </div>
       <div className="row">
         <div className="three columns">
@@ -53,9 +55,19 @@ export function AddUser() {
             onChange={handleName}
             value={nome}
           />
+          <label htmlFor="emailInput">Data</label>
+          <input
+            className="u-full-width"
+            type="text"
+            placeholder="data"
+            readOnly
+            id="emailInput"
+            onChange={handleEmail}
+            value={criadoEm}
+          />
           {error && error}
           <button onClick={handleClick} className="btn-primary">
-            Incluir
+            Salvar
           </button>
         </div>
       </div>
