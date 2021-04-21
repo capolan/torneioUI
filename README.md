@@ -21,12 +21,12 @@ O código deve ser disponibilizado no GitHub.
 
 ## Solução
 
-- Desenvolvido em react/redux
-- Incluido Styled e Bootstrap
-- Conecta ao serviço https://torneio.ddns.net (configuração em logic/config.jsx)
-- Torneio tem 3 telas
-  - Times: CRUD dos times do torneio
-  - Jogadores: CRUD de jogadores.
+- Desenvolvido em react/redux;
+- Incluido Styled e Bootstrap;
+- Conecta ao serviço https://fifa.ddns.net (configuração em logic/config.jsx);
+- Torneio tem 3 telas:
+  - Times: CRUD dos times do torneio;
+  - Jogadores: CRUD de jogadores;
   - Jogos: informa as partidas criadas.
 
 ## Regras
@@ -43,3 +43,4 @@ O código deve ser disponibilizado no GitHub.
 
 - Jogos
   - clicar em Placar para gerar o resultado da partida;
+  - classificação apresenta a pontuação de cada equipe.
