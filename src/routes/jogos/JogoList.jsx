@@ -127,7 +127,7 @@ export function JogoList() {
             </thead>
             <tbody>
               {times!==undefined && times.length &&
-                times.map(({ nome, ponto }, i) => (
+                times.filter(s => s.jogadores >= 5).map(({ nome, ponto }, i) => (
                   <tr key={i}>
                     <td>{nome}</td>
                     <td>{ponto} </td>
@@ -168,9 +168,9 @@ export function JogoList() {
             <thead>
               <tr>
               <th>Id</th>
-                <th>Time 1</th>
+                <th>Time</th>
                 <th>Placar</th>
-                <th>Time 2</th>
+                <th>Time</th>
                 <th></th>
               </tr>
             </thead>

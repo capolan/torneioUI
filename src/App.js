@@ -3,21 +3,37 @@ import "bootstrap/dist/js/bootstrap.bundle";
 
 import React from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import styled from "styled-components";
 
-import { AddTime } from "./features/times/AddTime";
-import { EditTime } from "./features/times/EditTime";
-import { TimeList } from "./features/times/TimeList";
-import { AddJogo } from "./features/jogos/AddJogo";
-import { JogoList } from "./features/jogos/JogoList";
-import { AddPlayer } from "./features/jogadores/AddPlay";
-import { EditPlayer } from "./features/jogadores/EditPlay";
-import { PlayerList } from "./features/jogadores/PlayList";
+import { AddTime } from "./routes/times/AddTime";
+import { EditTime } from "./routes/times/EditTime";
+import { TimeList } from "./routes/times/TimeList";
+import { AddJogo } from "./routes/jogos/AddJogo";
+import { JogoList } from "./routes/jogos/JogoList";
+import { AddPlayer } from "./routes/jogadores/AddPlay";
+import { EditPlayer } from "./routes/jogadores/EditPlay";
+import { PlayerList } from "./routes/jogadores/PlayList";
 import { Navigation } from "./logic/menu";
 
 export default function App() {
+  const Title = styled.h1`
+    font-size: 1.5em;
+    text-align: center;
+    color: white;
+  `;
+
+  // Create a Wrapper component that'll render a <section> tag with some styles
+  const Wrapper = styled.section`
+    padding: 0.2em;
+    background: gray;
+  `;
+
   return (
     <>
       <Navigation />
+      <Wrapper>
+        <Title>Torneio Mundial</Title>
+      </Wrapper>
       <Router>
         <div>
           <Switch>

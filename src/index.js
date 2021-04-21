@@ -3,9 +3,9 @@ import { Provider } from "react-redux";
 import { bindActionCreators } from "redux";
 import React from "react";
 import ReactDOM from "react-dom";
-import { fetchTimes } from "./features/times/TimeSlice";
-import { fetchJogos } from "./features/jogos/JogoSlice";
-import { fetchPlayers } from "./features/jogadores/PlaySlice";
+import { fetchTimes } from "./routes/times/TimeSlice";
+import { fetchJogos } from "./routes/jogos/JogoSlice";
+import { fetchPlayers } from "./routes/jogadores/PlaySlice";
 import store from "./store";
 
 //store.dispatch(fetchTimes());

@@ -6,7 +6,6 @@ import { Spinner } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 
 export function TimeList() {
-
   const dispatch = useDispatch();
 
   const { entities } = useSelector((state) => state.times);
@@ -19,7 +18,7 @@ export function TimeList() {
   return (
     <div className="container">
       <div className="row">
-        <h1>Times</h1>
+        <h1>Equipes</h1>
       </div>
       <div className="row">
         <div className="two columns">

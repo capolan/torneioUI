@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import usersReducers from "./features/times/TimeSlice";
-import jogosReducers from "./features/jogos/JogoSlice";
-import playersReducers from "./features/jogadores/PlaySlice";
+import usersReducers from "./routes/times/TimeSlice";
+import jogosReducers from "./routes/jogos/JogoSlice";
+import playersReducers from "./routes/jogadores/PlaySlice";
 
 export default configureStore({
   reducer: {
