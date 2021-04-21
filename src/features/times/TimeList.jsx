@@ -1,15 +1,17 @@
 import { timeDeleted } from "./TimeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {  List } from 'reactstrap';
+import { Spinner } from 'react-bootstrap';
 
 import { Link } from "react-router-dom";
 
 export function TimeList() {
+
   const dispatch = useDispatch();
 
   const { entities } = useSelector((state) => state.times);
   const loading = useSelector((state) => state.loading);
-
+  
   const handleDelete = (id) => {
     dispatch(timeDeleted({ id }));
   };
@@ -28,8 +30,10 @@ export function TimeList() {
       </div>
       <div className="row">
         {loading ? (
-          "Loading..."
-        ) : (
+           <Spinner animation="border" role="status">
+             <span className="sr-only">Carregando...</span>
+          </Spinner>
+    ) : (
           <>
           <table className="u-full-width table table-striped">
             <thead>
@@ -51,7 +55,7 @@ export function TimeList() {
                     <Link to={`/player-list/${id}`}>
                         <button className="btn btn-warning mx-1">Jogadores</button>
                       </Link>
-                      <Link to={`/edit-user/${id}`}>
+                      <Link to={`/edit-time/${id}`}>
                         <button className="btn btn-primary mx-1">Editar</button>
                       </Link>
                       <button className="btn btn-danger mx-1" onClick={() => handleDelete(id)}>Remover</button>

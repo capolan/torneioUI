@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { playerDeleted } from "./PlaySlice";
 import { useDispatch, useSelector } from "react-redux";
+import { Spinner } from 'react-bootstrap';
 
 import { List } from 'reactstrap';
 import { Link } from "react-router-dom";
@@ -8,7 +9,7 @@ import { Link } from "react-router-dom";
 export function PlayerList() {
   const { pathname } = useLocation();
   const timeId = parseInt(pathname.replace("/player-list/", ""));
-
+  const timeSelected = useSelector((state) => state.times.entities.filter(s=>s.id === timeId));
   const dispatch = useDispatch();
 
   const { entities } = useSelector((state) => state.players);
@@ -21,7 +22,7 @@ export function PlayerList() {
   return (
     <div className="container">
       <div className="row">
-        <h1>Jogadores</h1>
+        <h1>{timeSelected[0].nome} </h1>
       </div>
       <div className="row">
         <div className="two columns">
@@ -32,8 +33,10 @@ export function PlayerList() {
       </div>
       <div className="row">
         {loading ? (
-          "Loading..."
-        ) : (
+           <Spinner animation="border" role="status">
+           <span className="sr-only">Carregando...</span>
+        </Spinner>
+      ) : (
           <>
           <table className="u-full-width table table-striped">
             <thead>

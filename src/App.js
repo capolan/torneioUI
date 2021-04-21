@@ -18,7 +18,6 @@ export default function App() {
   return (
     <>
       <Navigation />
-      <h1 className="center">Torneio</h1>
       <Router>
         <div>
           <Switch>
