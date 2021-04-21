@@ -22,12 +22,12 @@ O código deve ser disponibilizado no GitHub.
 ## Solução
 
 - Desenvolvido em react/redux;
-- Incluido Styled e Bootstrap;
+- Incluído Styled e Bootstrap;
 - Conecta ao serviço https://fifa.ddns.net (configuração em logic/config.jsx);
 - Torneio tem 3 telas:
   - Times: CRUD dos times do torneio;
   - Jogadores: CRUD de jogadores;
-  - Jogos: informa as partidas criadas.
+  - Jogos: informa as partidas criadas e o placas. Na mesma tela tem a classificação das equipes.
 
 ## Regras
 
@@ -38,8 +38,8 @@ O código deve ser disponibilizado no GitHub.
 
 - Jogadores:
 
-  - após incluir, o 5 jogador, o sistema monta os jogos automaticamente;
-  - após remover o 5 jogar, o sistema remove os jodos deste time automaticamente;
+  - após incluir o 5 jogador, o sistema monta os jogos automaticamente;
+  - após remover o 5 jogador, o sistema remove os jodos deste time automaticamente;
 
 - Jogos
   - clicar em Placar para gerar o resultado da partida;
