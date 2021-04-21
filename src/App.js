@@ -31,10 +31,10 @@ export default function App() {
   return (
     <>
       <Navigation />
-      <Wrapper>
-        <Title>Torneio Mundial</Title>
-      </Wrapper>
       <Router>
+        <Wrapper>
+          <Title>Torneio Mundial</Title>
+        </Wrapper>
         <div>
           <Switch>
             <Route path="/add-user">
