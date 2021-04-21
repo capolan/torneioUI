@@ -1,4 +1,5 @@
 //import { bindActionCreators } from "redux";
+import {  List } from 'reactstrap';
 import { jogoClean, jogoUpdated  } from "./JogoSlice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -106,6 +107,7 @@ export function JogoList() {
         {loading ? (
           "Loading..."
         ) : (
+          <>
           <table className="u-full-width table table-striped">
             <thead>
               <tr>
@@ -132,6 +134,12 @@ export function JogoList() {
                 ))}
             </tbody>
           </table>
+                    <List type="unstyled">
+                    <li><span className="badge badge-info mt-3">Limpar apaga o resultado do jogo</span></li>
+                    <li><span className="badge badge-info mt-1">Placar gera o resultado da partida</span></li>
+                    </List>
+                    </>
+          
         )}
       </div>
     </div>

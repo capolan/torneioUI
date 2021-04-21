@@ -62,7 +62,7 @@ export function TimeList() {
           </table>
           <br/>
           <List type="unstyled">
-          <li><span className="badge badge-info mt-3">Times com mais 5 jogadores</span></li>
+          <li><span className="badge badge-info mt-3">Times com mais 5 jogadores, o jogo é gerado automaticamente</span></li>
           <li><span className="badge badge-info mt-1">Ao remover um time, remove os jogadores e os jogos</span></li>
           </List>
           </>
